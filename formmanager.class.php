@@ -297,7 +297,7 @@ class FormManager
     public function control()
     {
         foreach ($this->formElements as $element) {
-            if (!post($element) && !isset($this->notRequiredElements[$element])) {
+            if (!$this->data($element) && !isset($this->notRequiredElements[$element])) {
                 $this->errors[] = $element;
             } else {
                 $this->data[$element] = $this->data($element);
