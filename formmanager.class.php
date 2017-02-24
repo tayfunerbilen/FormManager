@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class FormManager
+ * Class Form
  * @author  Tayfun Erbilen
  * @email   tayfunerbilen@gmail.com
  * @web     http://erbilen.net
@@ -70,6 +70,14 @@ class FormManager
         if ($print) {
             echo $this->form;
         }
+    }
+
+    /**
+     * Show final form
+     */
+    public function show()
+    {
+        echo $this->form;
     }
 
     /**
