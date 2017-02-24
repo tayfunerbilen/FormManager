@@ -27,3 +27,27 @@ Include class file started it and create your own form quickly.
   // you can show where you want :)
   $form->show();
 ```
+
+Templates
+====================
+If you want, you can change templates for form elements one by one.
+
+```php
+$form->template('input', function(){
+  return '<div class="input-example">
+    <label for="{name}">
+      {form}
+      <span class="title">{label}</span>
+    </label>
+  </div>';
+});
+
+$form->template('select', function(){
+  return '<div class="select-example">
+    <label for="{name}">
+      {form}
+      <span class="title">{label}</span>
+    </label>
+  </div>';
+});
+```
