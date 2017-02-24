@@ -177,7 +177,7 @@ class FormManager
             if ($this->type == 'multiple') {
                 if ($this->data($name) && isset(array_flip($this->data($name))[$key])) {
                     $select .= ' selected ';
-                } elseif (!$this->data($name) && in_array($key, $this->value)) {
+                } elseif (!$this->data($name) && $this->value && in_array($key, $this->value)) {
                     $select .= ' selected ';
                 }
             } elseif ($this->type != 'multiple') {
@@ -213,7 +213,7 @@ class FormManager
         if ($this->type == 'multiple') {
             if ($this->data($name) && isset(array_flip($this->data($name))[$value])) {
                 $input .= ' checked ';
-            } elseif (!$this->data($name) && in_array($value, $this->value)) {
+            } elseif (!$this->data($name) && $this->value && in_array($value, $this->value)) {
                 $input .= ' checked ';
             }
         } elseif ($this->type != 'multiple') {
