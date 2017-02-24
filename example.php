@@ -10,6 +10,7 @@
   $form->input('username', 'Enter username');
   $form->type('password')->input('password', 'Enter Password');
   $form->required(false)->textarea('about', 'Who are you?'); // not required
+  $form->submit('Submit');
   $form->end(false); // means don't show
   
   // check before show
