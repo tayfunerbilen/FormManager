@@ -51,3 +51,28 @@ $form->template('select', function(){
   </div>';
 });
 ```
+
+Radio/Checkbox/Select Examples
+====================
+```php
+$form->start('GET');
+$form->label('Who are you?')->textarea('about', 'Write about yourself something');
+$form->type('multiple')->value([1,2])->select('hobbies', [
+  ''  => '-- select a hobbie',
+  '1' => 'Cycling',
+  '2' => 'Diving',
+  '3' => 'Driving'
+]);
+ $form->label('Man')->checkbox('gender', 1);
+ $form->label('Woman')->checkbox('gender', 2);
+ $form->submit('Submit');
+ $form->end(false);
+ 
+ echo $form->show();
+ 
+ if ($data = $form->control()){
+  print_r($data);
+ } else {
+  echo $form->error();
+ }
+```
