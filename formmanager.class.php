@@ -15,6 +15,8 @@ class FormManager
     // not required elements
     public $notRequiredElements = [];
 
+    public $fileElements = [];
+
     // all error's
     public $errors = [];
 
@@ -57,11 +59,11 @@ class FormManager
     /**
      * @param string $type
      */
-    public function start($type = 'POST')
+    public function start($type = 'POST', $enctype = false)
     {
         $this->submitBtn = null;
         $this->postType = $type;
-        $this->form .= '<form action="" method="' . $type . '">';
+        $this->form .= '<form action="" method="' . $type . '" ' . ($enctype ? 'enctype="multipart/form-data"' : null) . '>';
     }
 
     public function end($print = true)
@@ -77,7 +79,7 @@ class FormManager
      */
     public function show()
     {
-        echo $this->form;
+        return $this->form;
     }
 
     /**
@@ -124,9 +126,8 @@ class FormManager
 
     /**
      * @param $name
-     * @param null $value
      * @param null $placeholder
-     * Create input element
+     * Create input elements
      */
     public function input($name, $placeholder = null)
     {
@@ -138,6 +139,9 @@ class FormManager
             $this->form .= '<div class="form-group">
                 ' . $input . '
             </div>';
+        }
+        if ($this->type == 'file') {
+            $this->fileElements[$name] = $name;
         }
         $this->clean($name);
     }
@@ -177,7 +181,7 @@ class FormManager
             if ($this->type == 'multiple') {
                 if ($this->data($name) && isset(array_flip($this->data($name))[$key])) {
                     $select .= ' selected ';
-                } elseif (!$this->data($name) && $this->value && in_array($key, $this->value)) {
+                } elseif (!$this->data($name) && in_array($key, $this->value)) {
                     $select .= ' selected ';
                 }
             } elseif ($this->type != 'multiple') {
@@ -213,7 +217,7 @@ class FormManager
         if ($this->type == 'multiple') {
             if ($this->data($name) && isset(array_flip($this->data($name))[$value])) {
                 $input .= ' checked ';
-            } elseif (!$this->data($name) && $this->value && in_array($value, $this->value)) {
+            } elseif (!$this->data($name) && in_array($value, $this->value)) {
                 $input .= ' checked ';
             }
         } elseif ($this->type != 'multiple') {
@@ -314,10 +318,14 @@ class FormManager
      */
     public function data($name)
     {
-        if (strtoupper($this->postType) == 'POST') {
-            return $this::post($name);
+        if (isset($this->fileElements[$name])) {
+            return $_FILES[$name];
+        } else {
+            if (strtoupper($this->postType) == 'POST') {
+                return $this::post($name);
+            }
+            return $this::get($name);
         }
-        return $this::get($name);
     }
 
     /**
